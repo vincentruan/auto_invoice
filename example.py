@@ -13,8 +13,11 @@ def main():
     """主函数 - 演示自动发票下载功能（支持加密配置文件自动解密）"""
     print("=== Auto Invoice 使用示例 ===")
 
-    # 配置文件路径
-    config_path = os.path.join("email_invoices", "config.json")
+    # 配置文件和密钥路径
+    config_path = os.environ.get("AUTO_INVOICE_CONFIG", os.path.join("config", "config.json"))
+    private_key_path = os.environ.get("AUTO_INVOICE_PRIVATE_KEY", os.path.join("config", "private_key.pem"))
+    public_key_path = os.environ.get("AUTO_INVOICE_PUBLIC_KEY", os.path.join("config", "public_key.pem"))
+
     if not os.path.exists(config_path):
         print(f"错误: 配置文件 {config_path} 不存在")
         print("请先创建配置文件并设置邮箱信息")
@@ -22,7 +25,7 @@ def main():
 
     try:
         # 使用ConfigCrypto自动解密配置文件
-        config_crypto = ConfigCrypto(config_path)
+        config_crypto = ConfigCrypto(config_path, private_key_path, public_key_path)
         config = config_crypto.decrypt_config()
         if config is None:
             print("✗ 配置文件解密失败，请检查密钥文件和配置内容")

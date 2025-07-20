@@ -3,9 +3,9 @@ from .rsa_utils import RSACrypto
 
 class ConfigCrypto:
     """配置文件加密工具类"""
-    def __init__(self, config_path="config.json"):
+    def __init__(self, config_path="config/config.json", private_key_path=None, public_key_path=None):
         self.config_path = config_path
-        self.crypto = RSACrypto()
+        self.crypto = RSACrypto(private_key_path=private_key_path, public_key_path=public_key_path)
 
     def encrypt_config(self):
         """加密配置文件中的密码字段"""

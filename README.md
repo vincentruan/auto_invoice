@@ -137,4 +137,4 @@ auto_invoice/
 
 ## 许可证
 
-MIT License
+BSD 3-Clause License

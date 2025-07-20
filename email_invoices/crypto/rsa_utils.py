@@ -7,9 +7,11 @@ from cryptography.hazmat.backends import default_backend
 class RSACrypto:
     """RSA 4096位非对称加密工具类"""
     def __init__(self, private_key_path=None, public_key_path=None):
-        base_dir = os.path.dirname(__file__)
-        self.private_key_path = private_key_path or os.path.join(base_dir, "private_key.pem")
-        self.public_key_path = public_key_path or os.path.join(base_dir, "public_key.pem")
+        # 默认密钥路径为项目根目录下的 config 目录
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        config_dir = os.path.join(project_root, "config")
+        self.private_key_path = private_key_path or os.path.join(config_dir, "private_key.pem")
+        self.public_key_path = public_key_path or os.path.join(config_dir, "public_key.pem")
         self.private_key = None
         self.public_key = None
 
