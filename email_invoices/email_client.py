@@ -19,6 +19,11 @@ class EmailClient:
             print(f"Failed to connect to the email server: {e}")
             return False
 
+    def disconnect(self):
+        if self.client:
+            self.client.logout()
+            self.client = None # 释放资源
+
     def list_folders(self):
         if not self.client:
             print("Not connected to the email server. Call 'connect' method first.")

@@ -1,7 +1,7 @@
 import os
-from email_client import EmailClient
-from invoice_attachment_downloader import InvoiceAttachmentDownloader
-from crypto.config_crypto import ConfigCrypto
+from .email_client import EmailClient
+from .invoice_attachment_downloader import InvoiceAttachmentDownloader
+from .crypto.config_crypto import ConfigCrypto
 
 if __name__ == "__main__":
     # 支持通过环境变量指定路径
@@ -19,11 +19,15 @@ if __name__ == "__main__":
         username=config["email"]["username"],
         password=config["email"]["password"],
     )
-    email_client.connect()
-    invoice_emails = email_client.get_invoice_emails()
-    downloader = InvoiceAttachmentDownloader()
-    invoice_pdfs = downloader.download_invoice_attachments(invoice_emails)
-    for invoice_pdf in invoice_pdfs:
-        if not invoice_pdf[1]:
-            email_client.set_email_unread(invoice_pdf[0])
-            
+    try:
+        email_client.connect()
+        invoice_emails = email_client.get_invoice_emails()
+        downloader = InvoiceAttachmentDownloader()
+        invoice_pdfs = downloader.download_invoice_attachments(invoice_emails)
+        for invoice_pdf in invoice_pdfs:
+            if not invoice_pdf[1]:
+                email_client.set_email_unread(invoice_pdf[0])
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        email_client.disconnect()

@@ -4,6 +4,7 @@ import requests
 import html
 from datetime import datetime
 from email.header import decode_header
+from email.utils import parsedate_to_datetime
 from playwright.sync_api import sync_playwright
 
 
@@ -26,9 +27,9 @@ class InvoiceAttachmentDownloader:
         for invoice_email in invoice_emails:
             # 'Mon, 9 Oct 2023 17:05:39 +0800'
             invoice_email_date_str = decode_header(invoice_email[1]["Date"])[0][0]
-            invoice_email_date = datetime.strptime(
-                invoice_email_date_str, "%a, %d %b %Y %H:%M:%S %z"
-            )
+            if isinstance(invoice_email_date_str, bytes):
+                invoice_email_date_str = invoice_email_date_str.decode("utf-8", errors="ignore")
+            invoice_email_date = parsedate_to_datetime(invoice_email_date_str)
             invoice_email_month = invoice_email_date.strftime("%Y/%m")
             download_dir = os.path.abspath(os.path.join(self.download_dir, invoice_email_month))
             if not os.path.exists(download_dir):
@@ -148,7 +149,7 @@ class InvoiceAttachmentDownloader:
 if __name__ == "__main__":
     # 创建 EmailClient 实例并连接到邮件服务器
     import json
-    from email_client import EmailClient
+    from .email_client import EmailClient
 
     with open("./config.json", "r") as config_file:
         config = json.load(config_file)
