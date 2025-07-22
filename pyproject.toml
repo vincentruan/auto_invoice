@@ -13,6 +13,10 @@ dependencies = [
     "playwright>=1.40.0",
     "pytest>=7.0.0",
     "cryptography>=41.0.0",
+    "selenium>=4.27.1",
+    "openai>=1.97.1",
+    "pyyaml>=6.0.2",
+    "watchdog>=4.0.2",
 ]
 
 [project.optional-dependencies]

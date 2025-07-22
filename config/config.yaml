@@ -1,0 +1,5 @@
+location: "F:\\developer\\git\\auto_invoice\\invoices\\2025\\07"
+out_date: "202401"
+base_url: "https://mail.qq.com/"
+chrome_driver_mode: "auto"  # 可选: auto/manual
+google_chrome_driver_path: "./webdriver/chromedriver"  # 仅manual模式下生效 

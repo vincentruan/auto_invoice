@@ -23,6 +23,7 @@ class EmailClient:
         if self.client:
             self.client.logout()
             self.client = None # 释放资源
+            print("Disconnected from the email server.")
 
     def list_folders(self):
         if not self.client:
